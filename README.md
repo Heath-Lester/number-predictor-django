@@ -1,2 +1,7 @@
-# number-predictor-django
-Django Back-End
+# Number Predictor API with Django
+## Mega Millions
+
+## Power Ball
+
+## Web Scraper
+
