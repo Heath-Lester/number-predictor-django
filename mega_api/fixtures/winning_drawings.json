@@ -1,0 +1,15 @@
+[
+    {        
+        "model": "mega_api.winning_set",
+        "pk": 1,
+        "fields": {
+            "first_number": 7,
+            "second_number": 24,
+            "third_number": 54,
+            "fourth_number": 57,
+            "fifth_number": 58,
+            "sixth_number": 6,
+            "megaplier": 3,
+            "date": "2021-11-23"
+        }}
+]
