@@ -12,5 +12,5 @@ class Winning_Set(models.Model):
     fourth_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Fourth Number+")
     fifth_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Fifth Number+")
     sixth_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Sixth Number+")
-    megaplier = models.PositiveSmallIntegerField() 
+    megaplier = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Megaplier Number+")
     date = models.DateField(auto_now=False, auto_now_add=False)
