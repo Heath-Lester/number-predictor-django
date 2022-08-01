@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from .secret import *
+from .secret import SECRET_KEY
+from .secret import DEBUG
+from .secret import ENGINE
+from .secret import NAME
+from .secret import TIME_ZONE
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,7 +102,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'number_predictor.wsgi.application'
+# WSGI_APPLICATION = 'number_predictor.wsgi.application'
+ASGI_APPLICATION = 'number_predictor.wsgi.application'
 
 
 # Database
