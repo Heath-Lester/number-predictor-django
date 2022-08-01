@@ -1,11 +1,11 @@
-"""Module for Winnning Set Model"""
 """Module for Winning Set Model"""
 from django.db import models
 from .number import Number
 
 class Winning_Set(models.Model):
     """Winning Set Model"""
- 
+
+    date = models.DateField(auto_now=False, auto_now_add=False)
     first_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="First Number+")
     second_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Second Number+")
     third_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Third Number+")
@@ -13,4 +13,3 @@ class Winning_Set(models.Model):
     fifth_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Fifth Number+")
     sixth_number = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Sixth Number+")
     megaplier = models.ForeignKey(Number, on_delete=models.RESTRICT, related_name="Megaplier Number+")
-    date = models.DateField(auto_now=False, auto_now_add=False)
