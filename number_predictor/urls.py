@@ -20,7 +20,13 @@ from django.conf.urls import static, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from mega_api.models import *
+from mega_api.views import *
+from mega_api.views.initialize import initialize
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'mega_millions/winning_drawings', Winning_Drawings, 'winning_drawings')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    re_path(r'^', include(router.urls)),
+    re_path(r'^initialize$', initialize)
 ]

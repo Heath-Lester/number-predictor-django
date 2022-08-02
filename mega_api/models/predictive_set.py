@@ -5,6 +5,7 @@ from .number import Number
 class Predictive_Set(models.Model):
     """Predictive Set Model"""
  
+    date = models.DateField(auto_now=True, auto_now_add=True)
     first_number = models.PositiveSmallIntegerField()
     second_number = models.PositiveSmallIntegerField()
     third_number = models.PositiveSmallIntegerField()
@@ -12,4 +13,3 @@ class Predictive_Set(models.Model):
     fifth_number = models.PositiveSmallIntegerField()
     sixth_number = models.PositiveSmallIntegerField()
     megaplier = models.PositiveSmallIntegerField()
-    date = models.DateField(auto_now=True, auto_now_add=True)

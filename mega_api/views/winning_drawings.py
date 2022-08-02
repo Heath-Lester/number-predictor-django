@@ -1,4 +1,3 @@
-import base64
 """View for Winning Drawings"""
 from django.views.generic.base import View
 from rest_framework import status
