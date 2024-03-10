@@ -11,11 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from .secret import SECRET_KEY
-from .secret import DEBUG
-from .secret import ENGINE
-from .secret import NAME
-from .secret import TIME_ZONE
+import environ
+from environ import Env
+
+# Initialize environment variables
+env: Env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY
+SECRET_KEY: str = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DEBUG
+DEBUG: bool = env('DEBUG')
 
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS: list[str] = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://localhost:8080"
@@ -40,7 +41,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS: list[str] = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,7 +56,7 @@ INSTALLED_APPS = [
     'skimmer_api',
 ]
 
-REST_FRAMEWORK = {
+REST_FRAMEWORK: dict[str, str | int | list[str]] = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
@@ -66,14 +67,14 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 25
 }
 
-CORS_ORIGIN_WHITELIST = (
+CORS_ORIGIN_WHITELIST: tuple[str] = (
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'http://localhost:4200',
     'http://127.0.0.1:4200'
 )
 
-MIDDLEWARE = [
+MIDDLEWARE: list[str] = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -84,9 +85,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'number_predictor.urls'
+ROOT_URLCONF: str = 'number_predictor.urls'
 
-TEMPLATES = [
+TEMPLATES: list[dict[str, any]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -103,16 +104,16 @@ TEMPLATES = [
 ]
 
 # WSGI_APPLICATION = 'number_predictor.wsgi.application'
-ASGI_APPLICATION = 'number_predictor.wsgi.application'
+ASGI_APPLICATION: str = 'number_predictor.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES:  dict[str, dict[str, any]] = {
     'default': {
-        'ENGINE': ENGINE,
-        'NAME': BASE_DIR / NAME,
+        'ENGINE': env('ENGINE'),
+        'NAME': BASE_DIR / env('NAME'),
     }
 }
 
@@ -120,7 +121,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS: list[dict[str, str]] = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -139,25 +140,25 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE: str = 'en-us'
 
-TIME_ZONE = TIME_ZONE
+TIME_ZONE: str = env('TIME_ZONE')
 
-USE_I18N = True
+USE_I18N: bool = True
 
-USE_L10N = True
+USE_L10N: bool = True
 
-USE_TZ = True
+USE_TZ: bool = True
 
-DATE_INPUT_FORMATS = ['%m/%d/%Y']
+DATE_INPUT_FORMATS: list[str] = ['%m/%d/%Y']
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL: str = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD: str = 'django.db.models.BigAutoField'

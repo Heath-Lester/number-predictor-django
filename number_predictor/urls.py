@@ -15,18 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from django.conf import settings 
+from django.conf import settings
 from django.conf.urls import static, include
-from rest_framework import routers
+from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from mega_api.models import *
 from mega_api.views import *
-from mega_api.views.initialize import initialize
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'mega_millions/winning_drawings', Winning_Drawings, 'winning_drawings')
+router = DefaultRouter(trailing_slash=False)
+router.register(r'mega_millions/winning_sets', WinningSets, 'winning_sets')
 
 urlpatterns = [
     re_path(r'^', include(router.urls)),
-    re_path(r'^initialize$', initialize)
 ]

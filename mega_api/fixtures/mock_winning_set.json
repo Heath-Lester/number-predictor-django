@@ -1,0 +1,16 @@
+[
+	{
+		"model": "mega_api.winning_set",
+		"pk": 1,
+		"fields": {
+			"first_ball": 7,
+			"second_ball": 24,
+			"third_ball": 54,
+			"fourth_ball": 57,
+			"fifth_ball": 58,
+			"mega_ball": 6,
+			"megaplier": 3,
+			"date": "2021-11-23"
+		}
+	}
+]

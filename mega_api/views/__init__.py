@@ -1,2 +1,4 @@
-from .winning_drawings import Winning_Drawings
+"""Init file to importing Mega API views"""
+
+from .winning_sets import WinningSets
 from .initialize import initialize

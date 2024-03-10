@@ -1,7 +1,7 @@
 """Module for Winning Set Model"""
 from django.db import models
 from .ball import Ball
-from .mega_ball import MegaBall
+from .power_ball import PowerBall
 
 
 class WinningSet(models.Model):
@@ -19,7 +19,7 @@ class WinningSet(models.Model):
     fifth_ball = models.ForeignKey(
         Ball, on_delete=models.RESTRICT, related_name="Fifth Ball+")
     mega_ball = models.ForeignKey(
-        MegaBall, on_delete=models.RESTRICT, related_name="Mega Ball+")
+        PowerBall, on_delete=models.RESTRICT, related_name="Mega Ball+")
     megaplier = models.PositiveSmallIntegerField()
     estimated_jackpot = models.PositiveBigIntegerField()
     cash_option = models.PositiveBigIntegerField()

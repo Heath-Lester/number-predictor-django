@@ -1,67 +1,74 @@
-from curses.ascii import isalnum
-from datetime import date, datetime
+"""View for Skimming, Parsing, and Importing Web Data into SQLite Database"""
+
+from datetime import date
 from operator import concat
 from django.views.decorators.csrf import csrf_exempt
-from data_extractions import *
-from mega_api.models.number import Number
-from mega_api.models.winning_set import Winning_Set
+from django.http import HttpResponse
+from rest_framework import status
+from mega_api.models.ball import Ball
+from mega_api.models.mega_ball import MegaBall
+from mega_api.models.winning_set import WinningSet
 
 
 @csrf_exempt
-def initialize(request):
+def initialize():
+    """Runs skimmer"""
 
-    data_extraction = open("07312022.html", "r").read()
+    data_extraction: str = open(
+        "07312022.html", "r", encoding="utf-8").read()
 
     print("DATA EXTRACTION", data_extraction)
 
-    data_sets = data_extraction.split("</a>")
+    data_sets: list[str] = data_extraction.split("</a>")
 
     print("DATA SETS", data_sets)
 
-    for set in data_sets:
+    sets: list[WinningSet] = []
 
-        new_winning_set = Winning_Set()
+    for data_set in data_sets:
 
-        new_first_number = Number()
-        new_second_number = Number()
-        new_third_number = Number()
-        new_fourth_number = Number()
-        new_fifth_number = Number()
-        new_sixth_number = Number()
-        new_megaplier = Number()
+        winning_set: WinningSet = WinningSet()
 
-        new_first_number.position = 1
-        new_second_number.position = 2
-        new_third_number.position = 3
-        new_fourth_number.position = 4
-        new_fifth_number.position = 5
-        new_sixth_number.position = 6
-        new_megaplier.position = 7
-        
-        date_string_index = set.index('?date=') + 6
-        date_string_rindex = date_string_index + 18
-        
-        date_string = set[date_string_index: date_string_rindex]
-        
+        first_ball: Ball = Ball()
+        second_ball: Ball = Ball()
+        third_ball: Ball = Ball()
+        fourth_ball: Ball = Ball()
+        fifth_ball: Ball = Ball()
+        mega_ball: MegaBall = MegaBall()
+        megaplier: int = 0
+
+        date_string_index: int = data_set.index('?date=') + 6
+        date_string_rindex: int = date_string_index + 18
+
+        date_string: str = data_set[date_string_index: date_string_rindex]
+
         if date_string.isdigit():
-            new_winning_set.date = date.strftime(date_string, "MM-DD-YYYY")
-            
+            winning_set.date = date.strftime(date_string, "MM-DD-YYYY")
+
         else:
-            raw_date_string_index = set.index('<h5 class="drawItemDate">') + 25
-            raw_date_string_rindex = raw_date_string_index + 10
-            
-            raw_date_string = set[raw_date_string_index: raw_date_string_rindex]
-            
+            raw_date_string_index: int = data_set.index(
+                '<h5 class="drawItemDate">') + 25
+            raw_date_string_rindex: int = raw_date_string_index + 10
+
+            raw_date_string: str = data_set[raw_date_string_index: raw_date_string_rindex]
+
             if raw_date_string.endswith('<') or raw_date_string.endswith('/'):
-                
+
                 raw_date_list = raw_date_string.split('/')
-                
-                new_winning_set.date = date.strftime(concat(raw_date_list[0],'/', raw_date_list[1], '/', raw_date_list[2][0:3]), 'MM-DD-YYYY')
-            
+
+                winning_set.date = date.strftime(
+                    concat(
+                        raw_date_list[0],
+                        '/', raw_date_list[1],
+                        '/', raw_date_list[2][0:3]),
+                    'MM-DD-YYYY')
+
             else:
-                new_winning_set.date = date.strftime(raw_date_string, 'MM-DD-YYYY')
-                
-        
-            
-        
-        
+                winning_set.date = date.strftime(
+                    raw_date_string, 'MM-DD-YYYY')
+
+        winning_set.save()
+
+        sets.append(winning_set)
+
+    return HttpResponse(sets, content_type='application/json', status=status.HTTP_201_CREATED)
