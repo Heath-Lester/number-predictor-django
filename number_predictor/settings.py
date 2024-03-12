@@ -52,7 +52,6 @@ INSTALLED_APPS: list[str] = [
     'rest_framework.authtoken',
     'corsheaders',
     'mega_api',
-    'power_api',
     'skimmer_api',
 ]
 

@@ -1,104 +1,104 @@
 [
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 1,
 		"fields": {
 			"number": 1
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 2,
 		"fields": {
 			"number": 2
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 3,
 		"fields": {
 			"number": 3
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 4,
 		"fields": {
 			"number": 4
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 5,
 		"fields": {
 			"number": 5
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 6,
 		"fields": {
 			"number": 6
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 7,
 		"fields": {
 			"number": 7
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 8,
 		"fields": {
 			"number": 8
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 9,
 		"fields": {
 			"number": 9
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 10,
 		"fields": {
 			"number": 10
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 11,
 		"fields": {
 			"number": 11
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 12,
 		"fields": {
 			"number": 12
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 13,
 		"fields": {
 			"number": 13
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 14,
 		"fields": {
 			"number": 14
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 15,
 		"fields": {
 			"number": 15
@@ -106,70 +106,70 @@
 	},
 
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 16,
 		"fields": {
 			"number": 16
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 17,
 		"fields": {
 			"number": 17
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 18,
 		"fields": {
 			"number": 18
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 19,
 		"fields": {
 			"number": 19
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 20,
 		"fields": {
 			"number": 20
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 21,
 		"fields": {
 			"number": 21
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 22,
 		"fields": {
 			"number": 22
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 23,
 		"fields": {
 			"number": 23
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 24,
 		"fields": {
 			"number": 24
 		}
 	},
 	{
-		"model": "mega_api.mega_ball",
+		"model": "mega_api.megaball",
 		"pk": 25,
 		"fields": {
 			"number": 25

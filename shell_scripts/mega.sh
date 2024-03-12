@@ -4,5 +4,5 @@ rm db.sqlite3
 python3 manage.py migrate
 python3 manage.py makemigrations mega_api
 python3 manage.py migrate mega_api
-# python3 manage.py loaddata numbers
-# python3 manage.py loaddata mock_winning_drawings
+python3 manage.py loaddata balls
+python3 manage.py loaddata mega_balls
