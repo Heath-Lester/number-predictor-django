@@ -1,4 +1,4 @@
-"""Init file to importing Mega API views"""
+"""Init file for exporting Mega API views"""
 
 from .winning_sets import WinningSets
 from .initialize import initialize

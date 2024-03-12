@@ -12,7 +12,7 @@ from mega_api.models.winning_set import WinningSet
 
 @csrf_exempt
 def initialize():
-    """Runs skimmer"""
+    """Imports data from the data_extractions folder"""
 
     data_extraction: str = open(
         "07312022.html", "r", encoding="utf-8").read()

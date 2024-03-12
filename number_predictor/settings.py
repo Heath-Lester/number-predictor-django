@@ -110,7 +110,7 @@ ASGI_APPLICATION: str = 'number_predictor.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES:  dict[str, dict[str, any]] = {
+DATABASES: dict[str, dict[str, any]] = {
     'default': {
         'ENGINE': env('ENGINE'),
         'NAME': BASE_DIR / env('NAME'),

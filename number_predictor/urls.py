@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import URLResolver, path, re_path
 from django.conf import settings
 from django.conf.urls import static, include
 from rest_framework.routers import DefaultRouter
@@ -25,6 +25,6 @@ from mega_api.views import *
 router = DefaultRouter(trailing_slash=False)
 router.register(r'mega_millions/winning_sets', WinningSets, 'winning_sets')
 
-urlpatterns = [
+urlpatterns: list[URLResolver] = [
     re_path(r'^', include(router.urls)),
 ]

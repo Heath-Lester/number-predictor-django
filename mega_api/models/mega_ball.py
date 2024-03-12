@@ -1,7 +1,7 @@
 """Module for Mega Ball Model"""
-from django.db import models
+from django.db.models import Model, PositiveSmallIntegerField
 
 
-class MegaBall(models.Model):
+class MegaBall(Model):
     """Mega Ball Model"""
-    number = models.PositiveSmallIntegerField()
+    number = PositiveSmallIntegerField()
