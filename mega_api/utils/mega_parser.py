@@ -29,14 +29,18 @@ class MegaParser(HTMLParser):
     def handle_data(self, data: str) -> None:
         if data is not None & len(data) > 0:
             self.parsed_data.append(data)
-            # if self.current_attr != MegaClassName.NONE:
+            if self.current_attr != MegaClassName.NONE:
+                if self.current_attr == MegaClassName.DATE & self.current_set.date is not None:
+                    self.parsed_sets.append(self.current_set)
+                    self.current_set = WinningSet()
+                self.set_field(data)
 
     def get_data(self) -> list[str]:
         return self.parsed_data.copy()
 
-    def set_field(self, class_name: MegaClassName, value: str | None) -> None:
+    def set_field(self, value: str | None) -> None:
         if value is not None:
-            match class_name:
+            match self.current_attr:
                 case MegaClassName.NONE:
                     print('Class name is None')
                 case MegaClassName.DATE:
@@ -83,6 +87,36 @@ class MegaParser(HTMLParser):
                     except Exception as ex:
                         raise HttpResponseServerError(
                             ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                case MegaClassName.MEGAPLIER:
+                    self.current_set.megaplier = ConversionUtils().convert_megaplier_to_int(value)
+                # Standard Winners
+                case MegaClassName.JACKPOT_WINNERS:
+                    self.current_set.jackpot_winners = ConversionUtils(
+                    ).convert_number_string_to_int(value)
+                case MegaClassName.FIVE_MATCH_WINNERS:
+                    self.current_set.five_match_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.FOUR_MATCH_W_MEGA_WINNERS:
+                    self.current_set.four_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.FOUR_MATCH_WINNERS:
+                    self.current_set.four_match_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.THREE_MATCH_W_MEGA_WINNERS:
+                    self.current_set.three_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.THREE_MATCH_WINNERS:
+                    self.current_set.three_match_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.TWO_MATCH_W_MEGA_WINNERS:
+                    self.current_set.two_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.ONE_MATCH_W_MEGA_WINNERS:
+                    self.current_set.one_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
+                case MegaClassName.MEGA_MATCH_WINNERS:
+                    self.current_set.mega_match_winners = ConversionUtils.convert_number_string_to_int(
+                        value)
                 # Prizes
                 case MegaClassName.ESTIMATED_JACKPOT:
                     self.current_set.estimated_jackpot = ConversionUtils().convert_dollar_to_int(value)
@@ -112,59 +146,6 @@ class MegaParser(HTMLParser):
                 case MegaClassName.MEGA_MATCH_PRIZE:
                     self.current_set.mega_match_prize = ConversionUtils.convert_dollar_to_int(
                         value)
-                # Megaplier Prizes
-                case MegaClassName.FIVE_MATCH_MEGAPLIER_PRIZE:
-                    self.current_set.five_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.FOUR_MATCH_W_MEGA_MEGAPLIER_PRIZE:
-                    self.current_set.four_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.FOUR_MATCH_MEGAPLIER_PRIZE:
-                    self.current_set.four_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.THREE_MATCH_W_MEGA_MEGAPLIER_PRIZE:
-                    self.current_set.three_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.THREE_MATCH_MEGAPLIER_PRIZE:
-                    self.current_set.three_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.TWO_MATCH_W_MEGA_MEGAPLIER_PRIZE:
-                    self.current_set.two_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.ONE_MATCH_W_MEGA_MEGAPLIER_PRIZE:
-                    self.current_set.one_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                case MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE:
-                    self.current_set.mega_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
-                        value)
-                # Standard Winners
-                case MegaClassName.JACKPOT_WINNERS:
-                    self.current_set.jackpot_winners = ConversionUtils(
-                    ).convert_number_string_to_int(value)
-                case MegaClassName.FIVE_MATCH_WINNERS:
-                    self.current_set.five_match_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.FOUR_MATCH_W_MEGA_WINNERS:
-                    self.current_set.four_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.FOUR_MATCH_WINNERS:
-                    self.current_set.four_match_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.THREE_MATCH_W_MEGA_WINNERS:
-                    self.current_set.three_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.THREE_MATCH_WINNERS:
-                    self.current_set.three_match_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.TWO_MATCH_W_MEGA_WINNERS:
-                    self.current_set.two_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.ONE_MATCH_W_MEGA_WINNERS:
-                    self.current_set.one_match_w_mega_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
-                case MegaClassName.MEGA_MATCH_WINNERS:
-                    self.current_set.mega_match_winners = ConversionUtils.convert_number_string_to_int(
-                        value)
                 # Megaplier Winners
                 case MegaClassName.FIVE_MATCH_MEGAPLIER_WINNERS:
                     self.current_set.five_match_megaplier_winners = ConversionUtils.convert_number_string_to_int(
@@ -190,5 +171,30 @@ class MegaParser(HTMLParser):
                 case MegaClassName.MEGA_MATCH_MEGAPLIER_WINNERS:
                     self.current_set.mega_match_megaplier_winners = ConversionUtils.convert_number_string_to_int(
                         value)
+                # Megaplier Prizes
+                case MegaClassName.FIVE_MATCH_MEGAPLIER_PRIZE:
+                    self.current_set.five_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.FOUR_MATCH_W_MEGA_MEGAPLIER_PRIZE:
+                    self.current_set.four_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.FOUR_MATCH_MEGAPLIER_PRIZE:
+                    self.current_set.four_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.THREE_MATCH_W_MEGA_MEGAPLIER_PRIZE:
+                    self.current_set.three_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.THREE_MATCH_MEGAPLIER_PRIZE:
+                    self.current_set.three_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.TWO_MATCH_W_MEGA_MEGAPLIER_PRIZE:
+                    self.current_set.two_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.ONE_MATCH_W_MEGA_MEGAPLIER_PRIZE:
+                    self.current_set.one_match_w_mega_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
+                case MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE:
+                    self.current_set.mega_match_megaplier_prize = ConversionUtils.convert_dollar_to_int(
+                        value)
                 case _:
-                    print('Class name not recognized: ', class_name)
+                    print('Class name not handled: ', self.current_attr)

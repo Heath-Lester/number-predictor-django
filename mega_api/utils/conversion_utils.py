@@ -15,6 +15,11 @@ class ConversionUtils():
             return int(dollars)
 
     @staticmethod
+    def convert_megaplier_to_int(megaplier: str) -> int:
+        megaplier = megaplier.replace('x', '')
+        return int(megaplier)
+
+    @staticmethod
     def convert_number_string_to_int(number_string: str) -> int:
         number_string = number_string.replace(',', '')
         return int(number_string)
