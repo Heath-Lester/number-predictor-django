@@ -1,8 +1,6 @@
 from django.http import HttpResponseNotFound, HttpResponseServerError
-from mega_api.models.ball import Ball
+from mega_api.models import Ball, MegaBall
 from rest_framework import status
-
-from mega_api.models.mega_ball import MegaBall
 
 
 class BallUtils():

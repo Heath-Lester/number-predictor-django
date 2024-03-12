@@ -1,8 +1,6 @@
 from rest_framework.serializers import ModelSerializer
-
 from mega_api.models.winning_set import WinningSet
-from mega_api.serializers.ball_serializer import BallSerializer
-from mega_api.serializers.mega_ball_serializer import MegaBallSerializer
+from mega_api.serializers import BallSerializer, MegaBallSerializer
 
 
 class WinningSetSerializer(ModelSerializer):

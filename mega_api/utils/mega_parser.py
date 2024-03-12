@@ -1,9 +1,8 @@
 from html.parser import HTMLParser
-from datetime import date
 from rest_framework import status
-from django.http import HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponseServerError
 from mega_api.enums.mega_class_name import MegaClassName
-from mega_api.models import Ball, WinningSet
+from mega_api.models import WinningSet
 from mega_api.utils import BallUtils, ConversionUtils
 
 
@@ -17,11 +16,10 @@ class MegaParser(HTMLParser):
         if attrs is None or len(attrs) == 0:
             self.current_attr = MegaClassName.NONE
         else:
-            for attr in attrs:
-                if attr[0] == 'class':
-                    class_name: str = attr[1]
-                    if class_name in MegaClassName.has_value(class_name):
-                        self.current_attr = MegaClassName[class_name]
+            for key, value in attrs:
+                if key == 'class':
+                    if MegaClassName.has_matching_value(value):
+                        self.current_attr = MegaClassName[value]
                         break
                     else:
                         self.current_attr = MegaClassName.NONE
@@ -31,12 +29,22 @@ class MegaParser(HTMLParser):
             self.parsed_data.append(data)
             if self.current_attr != MegaClassName.NONE:
                 if self.current_attr == MegaClassName.DATE & self.current_set.date is not None:
-                    self.parsed_sets.append(self.current_set)
-                    self.current_set = WinningSet()
+                    self.load_set()
+
                 self.set_field(data)
+
+                if self.current_attr == MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE:
+                    self.load_set()
+
+    def load_set(self) -> None:
+        self.parsed_sets.append(self.current_set)
+        self.current_set = WinningSet()
 
     def get_data(self) -> list[str]:
         return self.parsed_data.copy()
+
+    def get_sets(self) -> list[WinningSet]:
+        return self.parsed_sets.copy()
 
     def set_field(self, value: str | None) -> None:
         if value is not None:

@@ -52,6 +52,6 @@ class MegaClassName(Enum):
     MEGA_MATCH_MEGAPLIER_PRIZE = 'dividerLine-small endCell megPrize mPrize8 ie11-col5 ie11-row10'
 
     @classmethod
-    def has_value(self, value: str | None) -> bool:
+    def has_matching_value(self, value: str | None) -> bool:
         class_values: list[str] = self._member_names_
         return value in class_values
