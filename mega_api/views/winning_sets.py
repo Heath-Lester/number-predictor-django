@@ -398,6 +398,155 @@ class WinningSets(ViewSet):
             mega_parser.feed(request.data)
             data: list[str] = mega_parser.get_data()
             print('DATA: ', data)
+            parsed_sets: list[WinningSet] = mega_parser.get_sets()
+            saved_sets: list[WinningSet] = []
+
+            for parsed_set in parsed_sets:
+                existing_set = WinningSet.objects.get(date=parsed_set.date)
+                if existing_set is None:
+                    parsed_set.save()
+                    saved_sets.append(parsed_set)
+                else:
+                    if existing_set.first_ball is None and parsed_set.first_ball is not None:
+                        existing_set.first_ball = parsed_set.first_ball
+
+                    if existing_set.second_ball is None and parsed_set.second_ball is not None:
+                        existing_set.second_ball = parsed_set.second_ball
+
+                    if existing_set.third_ball is None and parsed_set.third_ball is not None:
+                        existing_set.first_ball = parsed_set.third_ball
+
+                    if existing_set.fourth_ball is None and parsed_set.fourth_ball is not None:
+                        existing_set.fourth_ball = parsed_set.fourth_ball
+
+                    if existing_set.fifth_ball is None and parsed_set.fifth_ball is not None:
+                        existing_set.fifth_ball = parsed_set.fifth_ball
+
+                    if existing_set.mega_ball is None and parsed_set.mega_ball is not None:
+                        existing_set.mega_ball = parsed_set.mega_ball
+
+                    if existing_set.megaplier is None and parsed_set.megaplier is not None:
+                        existing_set.megaplier = parsed_set.megaplier
+
+                    # Standard Winners
+                    if existing_set.jackpot_winners is None and parsed_set.jackpot_winners is not None:
+                        existing_set.jackpot_winners = parsed_set.jackpot_winners
+
+                    if existing_set.five_match_winners is None and parsed_set.five_match_winners is not None:
+                        existing_set.five_match_winners = parsed_set.five_match_winners
+
+                    if existing_set.four_match_w_mega_winners is None and parsed_set.four_match_w_mega_winners is not None:
+                        existing_set.four_match_w_mega_winners = parsed_set.four_match_w_mega_winners
+
+                    if existing_set.four_match_winners is None and parsed_set.four_match_winners is not None:
+                        existing_set.four_match_winners = parsed_set.four_match_winners
+
+                    if existing_set.three_match_w_mega_winners is None and parsed_set.three_match_w_mega_winners is not None:
+                        existing_set.three_match_w_mega_winners = parsed_set.three_match_w_mega_winners
+
+                    if existing_set.three_match_winners is None and parsed_set.three_match_winners is not None:
+                        existing_set.three_match_winners = parsed_set.three_match_winners
+
+                    if existing_set.two_match_w_mega_winners is None and parsed_set.two_match_w_mega_winners is not None:
+                        existing_set.two_match_w_mega_winners = parsed_set.two_match_w_mega_winners
+
+                    if existing_set.one_match_w_mega_winners is None and parsed_set.one_match_w_mega_winners is not None:
+                        existing_set.one_match_w_mega_winners = parsed_set.one_match_w_mega_winners
+
+                    if existing_set.mega_match_winners is None and parsed_set.mega_match_winners is not None:
+                        existing_set.mega_match_winners = parsed_set.mega_match_winners
+
+                    # Standard Prizes
+                    if existing_set.estimated_jackpot is None and parsed_set.estimated_jackpot is not None:
+                        existing_set.estimated_jackpot = parsed_set.estimated_jackpot
+
+                    if existing_set.cash_option is None and parsed_set.cash_option is not None:
+                        existing_set.cash_option = parsed_set.cash_option
+
+                    if existing_set.five_match_prize is None and parsed_set.five_match_prize is not None:
+                        existing_set.five_match_prize = parsed_set.five_match_prize
+
+                    if existing_set.four_match_w_mega_prize is None and parsed_set.four_match_w_mega_prize is not None:
+                        existing_set.four_match_w_mega_prize = parsed_set.four_match_w_mega_prize
+
+                    if existing_set.four_match_prize is None and parsed_set.four_match_prize is not None:
+                        existing_set.four_match_prize = parsed_set.four_match_prize
+
+                    if existing_set.three_match_w_mega_prize is None and parsed_set.three_match_w_mega_prize is not None:
+                        existing_set.three_match_w_mega_prize = parsed_set.three_match_w_mega_prize
+
+                    if existing_set.three_match_prize is None and parsed_set.three_match_prize is not None:
+                        existing_set.three_match_prize = parsed_set.three_match_prize
+
+                    if existing_set.two_match_w_mega_prize is None and parsed_set.two_match_w_mega_prize is not None:
+                        existing_set.two_match_w_mega_prize = parsed_set.two_match_w_mega_prize
+
+                    if existing_set.one_match_w_mega_prize is None and parsed_set.one_match_w_mega_prize is not None:
+                        existing_set.one_match_w_mega_prize = parsed_set.one_match_w_mega_prize
+
+                    if existing_set.mega_match_prize is None and parsed_set.mega_match_prize is not None:
+                        existing_set.mega_match_prize = parsed_set.mega_match_prize
+
+                    # Megaplier Winners
+                    if existing_set.jackpot_megaplier_winners is None and parsed_set.jackpot_megaplier_winners is not None:
+                        existing_set.jackpot_megaplier_winners = parsed_set.jackpot_megaplier_winners
+
+                    if existing_set.five_match_megaplier_winners is None and parsed_set.five_match_megaplier_winners is not None:
+                        existing_set.five_match_megaplier_winners = parsed_set.five_match_megaplier_winners
+
+                    if existing_set.four_match_w_mega_megaplier_winners is None and parsed_set.four_match_w_mega_megaplier_winners is not None:
+                        existing_set.four_match_w_mega_megaplier_winners = parsed_set.four_match_w_mega_megaplier_winners
+
+                    if existing_set.four_match_megaplier_winners is None and parsed_set.four_match_megaplier_winners is not None:
+                        existing_set.four_match_megaplier_winners = parsed_set.four_match_megaplier_winners
+
+                    if existing_set.three_match_w_mega_megaplier_winners is None and parsed_set.three_match_w_mega_megaplier_winners is not None:
+                        existing_set.three_match_w_mega_megaplier_winners = parsed_set.three_match_w_mega_megaplier_winners
+
+                    if existing_set.three_match_megaplier_winners is None and parsed_set.three_match_megaplier_winners is not None:
+                        existing_set.three_match_megaplier_winners = parsed_set.three_match_megaplier_winners
+
+                    if existing_set.two_match_w_mega_megaplier_winners is None and parsed_set.two_match_w_mega_megaplier_winners is not None:
+                        existing_set.two_match_w_mega_megaplier_winners = parsed_set.two_match_w_mega_megaplier_winners
+
+                    if existing_set.one_match_w_mega_megaplier_winners is None and parsed_set.one_match_w_mega_megaplier_winners is not None:
+                        existing_set.one_match_w_mega_megaplier_winners = parsed_set.one_match_w_mega_megaplier_winners
+
+                    if existing_set.mega_match_megaplier_winners is None and parsed_set.mega_match_megaplier_winners is not None:
+                        existing_set.mega_match_megaplier_winners = parsed_set.mega_match_megaplier_winners
+
+                    # Megaplier Prizes
+                    if existing_set.five_match_megaplier_prize is None and parsed_set.five_match_megaplier_prize is not None:
+                        existing_set.five_match_megaplier_prize = parsed_set.five_match_megaplier_prize
+
+                    if existing_set.four_match_w_mega_megaplier_prize is None and parsed_set.four_match_w_mega_megaplier_prize is not None:
+                        existing_set.four_match_w_mega_megaplier_prize = parsed_set.four_match_w_mega_megaplier_prize
+
+                    if existing_set.four_match_megaplier_prize is None and parsed_set.four_match_megaplier_prize is not None:
+                        existing_set.four_match_megaplier_prize = parsed_set.four_match_megaplier_prize
+
+                    if existing_set.three_match_w_mega_megaplier_prize is None and parsed_set.three_match_w_mega_megaplier_prize is not None:
+                        existing_set.three_match_w_mega_megaplier_prize = parsed_set.three_match_w_mega_megaplier_prize
+
+                    if existing_set.three_match_megaplier_prize is None and parsed_set.three_match_megaplier_prize is not None:
+                        existing_set.three_match_megaplier_prize = parsed_set.three_match_megaplier_prize
+
+                    if existing_set.two_match_w_mega_megaplier_prize is None and parsed_set.two_match_w_mega_megaplier_prize is not None:
+                        existing_set.two_match_w_mega_megaplier_prize = parsed_set.two_match_w_mega_megaplier_prize
+
+                    if existing_set.one_match_w_mega_megaplier_prize is None and parsed_set.one_match_w_mega_megaplier_prize is not None:
+                        existing_set.one_match_w_mega_megaplier_prize = parsed_set.one_match_w_mega_megaplier_prize
+
+                    if existing_set.mega_match_megaplier_prize is None and parsed_set.mega_match_megaplier_prize is not None:
+                        existing_set.mega_match_megaplier_prize = parsed_set.mega_match_megaplier_prize
+
+                    existing_set.save()
+                    saved_sets.append(existing_set)
+
+            serializer = WinningSetSerializer(
+                saved_sets, many=True, context={'request': request})
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as exception:
             return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

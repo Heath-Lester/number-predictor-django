@@ -4,6 +4,7 @@ from enum import Enum
 class MegaClassName(Enum):
     NONE = None
     DATE = 'drawItemDate'
+    ALT_DATE = 'prevWinDate'
     FIRST_BALL = 'ball pastNum1'
     SECOND_BALL = 'ball pastNum2'
     THIRD_BALL = 'ball pastNum3'

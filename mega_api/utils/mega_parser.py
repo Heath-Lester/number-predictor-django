@@ -53,6 +53,8 @@ class MegaParser(HTMLParser):
                     print('Class name is None')
                 case MegaClassName.DATE:
                     self.current_set.date = ConversionUtils().convert_date_string_to_date(value)
+                case MegaClassName.ALT_DATE:
+                    self.current_set.date = ConversionUtils().convert_alt_date_string_to_date(value)
                 case MegaClassName.FIRST_BALL:
                     try:
                         ball = BallUtils.get_ball_by_number(value)
