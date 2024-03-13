@@ -7,7 +7,6 @@ from rest_framework.decorators import action
 from mega_api.models import Ball, MegaBall, WinningSet
 from mega_api.serializers.winning_set_serializer import WinningSetSerializer
 from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseNotAllowed
-
 from mega_api.utils.mega_parser import MegaParser
 
 

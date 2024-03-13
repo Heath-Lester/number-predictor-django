@@ -7,10 +7,10 @@ from django.http import HttpResponseServerError, HttpResponseNotAllowed
 
 
 class MegaBalls(ViewSet):
-    """Class containing CRUD operations for Balls"""
+    """Class containing CRUD operations for Mega Balls"""
 
     def list(self, request) -> Response:
-        """Handles GET requests for all Balls"""
+        """Handles GET requests for all Mega Balls"""
 
         try:
             mega_balls: list[MegaBall] = MegaBall.objects.all()

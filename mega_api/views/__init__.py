@@ -3,3 +3,4 @@
 from .winning_sets import WinningSets
 from .initialize import initialize
 from .balls import Balls
+from .mega_balls import MegaBalls

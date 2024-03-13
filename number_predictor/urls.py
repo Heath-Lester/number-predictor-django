@@ -24,6 +24,8 @@ from mega_api.views import *
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'mega_millions/winning_sets', WinningSets, 'winning_sets')
+router.register(r'mega_millions/balls', Balls, 'balls')
+router.register(r'mega_millions/mega_balls', MegaBalls, 'mega_balls')
 
 urlpatterns: list[URLResolver] = [
     re_path(r'^', include(router.urls)),
