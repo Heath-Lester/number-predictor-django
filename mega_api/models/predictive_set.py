@@ -7,7 +7,7 @@ from .mega_ball import MegaBall
 class PredictiveSet(Model):
     """Predictive Set Model"""
 
-    created_date = DateField(auto_now=False, auto_now_add=False)
+    created_date = DateField(auto_now=True)
     prediction_date = DateField(auto_now=False, auto_now_add=False)
     first_ball = ForeignKey(
         Ball, on_delete=RESTRICT, related_name="First Number+")

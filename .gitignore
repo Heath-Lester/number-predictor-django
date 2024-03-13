@@ -164,5 +164,6 @@ Pipfile.lock
 .pylintrc
 *.session.sql
 secret*
+*.sqlite3
 
 # End of https://www.toptal.com/developers/gitignore/api/djang

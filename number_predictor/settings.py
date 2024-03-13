@@ -15,6 +15,7 @@ import environ
 from environ import Env
 
 # Initialize environment variables
+# https://django-environ.readthedocs.io/en/latest/
 env: Env = environ.Env()
 environ.Env.read_env()
 
@@ -27,7 +28,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY: str = env('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG: bool = env('DEBUG')
 
@@ -111,8 +111,8 @@ ASGI_APPLICATION: str = 'number_predictor.wsgi.application'
 
 DATABASES: dict[str, dict[str, any]] = {
     'default': {
-        'ENGINE': env('ENGINE'),
-        'NAME': BASE_DIR / env('NAME'),
+        'ENGINE': env('MEGA_ENGINE'),
+        'NAME': BASE_DIR / 'databases' / env('MEGA_NAME'),
     }
 }
 
