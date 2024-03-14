@@ -20,7 +20,7 @@ env: Env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR: Path = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,10 +32,7 @@ SECRET_KEY: str = env('SECRET_KEY')
 DEBUG: bool = env('DEBUG')
 
 ALLOWED_HOSTS: list[str] = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://localhost:8080"
-    "http://127.0.0.1:8080",
+    "localhost",
 ]
 
 
@@ -63,7 +60,7 @@ REST_FRAMEWORK: dict[str, str | int | list[str]] = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 25
+    'PAGE_SIZE': 100
 }
 
 CORS_ORIGIN_WHITELIST: tuple[str] = (

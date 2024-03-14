@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import URLResolver, path, re_path
 from django.conf import settings
 from django.conf.urls import static, include
@@ -23,10 +22,16 @@ from mega_api.models import *
 from mega_api.views import *
 
 router = DefaultRouter(trailing_slash=False)
-router.register(r'mega_millions/winning_sets', WinningSets, 'winning_sets')
-router.register(r'mega_millions/balls', Balls, 'balls')
-router.register(r'mega_millions/mega_balls', MegaBalls, 'mega_balls')
+router.register(r'mega_millions/winning_sets', WinningSets, 'winning_set')
+router.register(r'mega_millions/balls', Balls, 'ball')
+router.register(r'mega_millions/mega_balls', MegaBalls, 'mega_ball')
+router.register(r'users', Users, 'user')
 
 urlpatterns: list[URLResolver] = [
     re_path(r'^', include(router.urls)),
+    re_path(r'^register$', register_user),
+    re_path(r'^login$', login_user),
+    re_path(r'^api-token-auth$', obtain_auth_token),
+    re_path(r'^api-auth', include('rest_framework.urls',
+            namespace='rest_framework')),
 ]

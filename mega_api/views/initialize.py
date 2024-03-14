@@ -4,6 +4,7 @@ from datetime import date
 from operator import concat
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from requests import Response
 from rest_framework import status
 from mega_api.models.ball import Ball
 from mega_api.models.mega_ball import MegaBall
@@ -11,7 +12,7 @@ from mega_api.models.winning_set import WinningSet
 
 
 @csrf_exempt
-def initialize():
+def initialize() -> Response:
     """Imports data from the data_extractions folder"""
 
     data_extraction: str = open(

@@ -4,5 +4,5 @@ from django.apps import AppConfig
 
 class MegaApiConfig(AppConfig):
     """Mega API Application Config"""
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mega_api'
+    default_auto_field: str = 'django.db.models.BigAutoField'
+    name: str = 'mega_api'

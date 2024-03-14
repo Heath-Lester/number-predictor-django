@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from mega_api.models import Ball
 from mega_api.serializers import BallSerializer
-from django.http import HttpResponseServerError, HttpResponseNotAllowed
+from django.http import HttpResponseServerError, HttpResponseNotAllowed, HttpResponseNotFound
 
 
 class Balls(ViewSet):
@@ -50,7 +50,7 @@ class Balls(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Ball.DoesNotExist as exception:
-            return Response({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return HttpResponseNotFound({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as exception:
             return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

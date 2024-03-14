@@ -62,9 +62,12 @@ class WinningSets(ViewSet):
         """Handles POST requests for a new winning set"""
 
         try:
+            if request.body is None:
+                return HttpResponseBadRequest({'message': 'body must include set data'}, status=status.HTTP_400_BAD_REQUEST)
+
             new_set = WinningSet()
 
-            set_date: int | None = request.data['date']
+            set_date: int | None = request.body['date']
             if set_date is not None:
                 new_date: date = date.fromtimestamp(set_date)
                 new_set.date = new_date
@@ -222,8 +225,10 @@ class WinningSets(ViewSet):
         """Handles PUT requests for Winning Sets"""
         try:
             winning_set = WinningSet.objects.get(pk=pk)
+            if request.body is None:
+                return HttpResponseBadRequest({'message': 'body must include set data'}, status=status.HTTP_400_BAD_REQUEST)
 
-            set_date: int | None = request.data['date']
+            set_date: int | None = request.body['date']
             if set_date is not None:
                 new_date: date = date.fromtimestamp(set_date)
                 winning_set.date = new_date
@@ -387,14 +392,14 @@ class WinningSets(ViewSet):
         """Handles POST requests for parsing HTML from Mega Millions"""
 
         if request.method != "POST":
-            return HttpResponseNotAllowed({'message': 'method not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+            return HttpResponseNotAllowed(permitted_methods=['POST'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-        if request.data is None:
+        if request.body is None:
             return HttpResponseBadRequest({'message': 'body is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             mega_parser = MegaParser()
-            mega_parser.feed(request.data)
+            mega_parser.feed(request.body)
             data: list[str] = mega_parser.get_data()
             print('DATA: ', data)
             parsed_sets: list[WinningSet] = mega_parser.get_sets()
