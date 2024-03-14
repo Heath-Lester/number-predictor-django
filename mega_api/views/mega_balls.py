@@ -25,18 +25,19 @@ class MegaBalls(ViewSet):
 
     def destroy(self, request, pk=None) -> Response:
         """Handles DELETE requests for all Mega Balls"""
-
-        return HttpResponseNotAllowed({'message': 'method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def create(self, request) -> Response:
         """Handles POST requests for all Mega Balls"""
-
-        return HttpResponseNotAllowed({'message': 'method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def update(self, request, pk=None) -> Response:
         """Handles POST requests for all Mega Balls"""
+        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-        return HttpResponseNotAllowed({'message': 'method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def partial_update(self, request, pk=None) -> Response:
+        """Handles PATCH requests for all Balls"""
+        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def retrieve(self, request, pk=None) -> Response:
         """Handles GET requests for a single Mega Ball"""

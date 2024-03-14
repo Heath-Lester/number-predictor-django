@@ -3,11 +3,13 @@ from datetime import date
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.decorators import action
 from mega_api.models import Ball, MegaBall, WinningSet
 from mega_api.serializers.winning_set_serializer import WinningSetSerializer
 from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseNotAllowed
 from mega_api.utils.mega_parser import MegaParser
+from pdb import set_trace
 
 
 class WinningSets(ViewSet):
@@ -221,7 +223,11 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def update(self, request, pk=None) -> Response:
+    def partial_update(self, request, pk=None) -> Response:
+        """Handles PATCH requests for all Winning Sets"""
+        return HttpResponseNotAllowed({'message': 'method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def update(self, request: Request, pk=None) -> Response:
         """Handles PUT requests for Winning Sets"""
         try:
             winning_set = WinningSet.objects.get(pk=pk)
@@ -388,8 +394,9 @@ class WinningSets(ViewSet):
             return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(methods=['post'], detail=True)
-    def html(self, request) -> Response:
+    def html(self, request: Request) -> Response:
         """Handles POST requests for parsing HTML from Mega Millions"""
+        print("REQUEST: ", request)
 
         if request.method != "POST":
             return HttpResponseNotAllowed(permitted_methods=['POST'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -398,6 +405,7 @@ class WinningSets(ViewSet):
             return HttpResponseBadRequest({'message': 'body is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
+            set_trace()
             mega_parser = MegaParser()
             mega_parser.feed(request.body)
             data: list[str] = mega_parser.get_data()

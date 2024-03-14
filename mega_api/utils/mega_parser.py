@@ -4,6 +4,7 @@ from django.http import HttpResponseServerError
 from mega_api.enums.mega_class_name import MegaClassName
 from mega_api.models import WinningSet
 from mega_api.utils import BallUtils, ConversionUtils
+from pdb import set_trace
 
 
 class MegaParser(HTMLParser):
@@ -13,6 +14,7 @@ class MegaParser(HTMLParser):
     current_set = WinningSet()
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        set_trace()
         if attrs is None or len(attrs) == 0:
             self.current_attr = MegaClassName.NONE
         else:
@@ -25,6 +27,7 @@ class MegaParser(HTMLParser):
                         self.current_attr = MegaClassName.NONE
 
     def handle_data(self, data: str) -> None:
+        set_trace()
         if data is not None & len(data) > 0:
             self.parsed_data.append(data)
             if self.current_attr != MegaClassName.NONE:
@@ -37,6 +40,7 @@ class MegaParser(HTMLParser):
                     self.load_set()
 
     def load_set(self) -> None:
+        set_trace()
         self.parsed_sets.append(self.current_set)
         self.current_set = WinningSet()
 
@@ -44,6 +48,7 @@ class MegaParser(HTMLParser):
         return self.parsed_data.copy()
 
     def get_sets(self) -> list[WinningSet]:
+        set_trace()
         return self.parsed_sets.copy()
 
     def set_field(self, value: str | None) -> None:

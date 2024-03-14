@@ -3,7 +3,7 @@
 		"model": "auth.user",
 		"pk": 1,
 		"fields": {
-			"password": "pbkdf2_sha256$150000$fHDURJBIASpx$trZS1MWc6YiNe5EYNBap+P+zMAwpNgNbUZH/b9bgvdw=",
+			"password": "pbkdf2_sha256$720000$Pr7rcZWwdi7v6c1uur1GwU$FnxyexW0F3FG52nrCmNSRMxcRuktCiAAWWxuAuKSGPg=",
 			"last_login": null,
 			"is_superuser": true,
 			"username": "heath",
@@ -12,7 +12,7 @@
 			"email": "h.allen.lester@gmail.com",
 			"is_staff": true,
 			"is_active": true,
-			"date_joined": "2024-03-12T19:12:13.676Z",
+			"date_joined": "2024-03-14T18:25:14.003302Z",
 			"groups": [],
 			"user_permissions": []
 		}
