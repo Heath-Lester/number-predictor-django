@@ -20,23 +20,23 @@ class Balls(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def destroy(self, request, pk=None) -> Response:
         """Handles DELETE requests for all Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def create(self, request) -> Response:
         """Handles POST requests for all Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def update(self, request, pk=None) -> Response:
         """Handles POST requests for all Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def partial_update(self, request, pk=None) -> Response:
         """Handles PATCH requests for all Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def retrieve(self, request, pk=None) -> Response:
         """Handles GET requests for a single Ball"""
@@ -49,7 +49,7 @@ class Balls(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Ball.DoesNotExist as exception:
-            return HttpResponseNotFound({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return HttpResponseNotFound({'message': exception.args[0]})
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)

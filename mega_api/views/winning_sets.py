@@ -27,7 +27,7 @@ class WinningSets(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def destroy(self, request, pk=None) -> Response:
         """Handles DELETE requests for all Winning Sets"""
@@ -38,10 +38,10 @@ class WinningSets(ViewSet):
             winning_set.delete()
 
         except WinningSet.DoesNotExist as exception:
-            return Response({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return HttpResponseNotFound({'message': exception.args[0]})
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def retrieve(self, request, pk=None) -> Response:
         """Handles GET requests for a single winning set"""
@@ -55,17 +55,17 @@ class WinningSets(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except WinningSet.DoesNotExist as exception:
-            return Response({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return HttpResponseNotFound({'message': exception.args[0]})
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def create(self, request) -> Response:
         """Handles POST requests for a new winning set"""
 
         try:
             if request.body is None:
-                return HttpResponseBadRequest({'message': 'body must include set data'}, status=status.HTTP_400_BAD_REQUEST)
+                return HttpResponseBadRequest({'message': 'body must include set data'})
 
             new_set = WinningSet()
 
@@ -84,13 +84,12 @@ class WinningSets(ViewSet):
                                 return id
                             else:
                                 raise HttpResponseServerError(
-                                    {'message': 'retrieved ball ID is invalid'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                        except Ball.DoesNotExist as ex:
+                                    {'message': 'retrieved ball ID is invalid'})
+                        except Ball.DoesNotExist as exception:
                             raise HttpResponseNotFound(
-                                {'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-                        except Exception as ex:
-                            raise HttpResponseServerError(
-                                ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                                {'message': exception.args[0]})
+                        except Exception as exception:
+                            raise HttpResponseServerError(exception)
 
                     elif isinstance(ball, Ball):
                         id: int | None = ball['id']
@@ -98,10 +97,10 @@ class WinningSets(ViewSet):
                             return id
                         else:
                             raise HttpResponseBadRequest(
-                                {'message': 'ball ID is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                                {'message': 'ball ID is invalid'})
                 else:
                     raise HttpResponseBadRequest(
-                        {'message': 'ball is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                        {'message': 'ball is invalid'})
 
             def parse_mega_ball(ball: int | MegaBall | None) -> int:
                 if ball is not None:
@@ -113,13 +112,12 @@ class WinningSets(ViewSet):
                                 return id
                             else:
                                 raise HttpResponseServerError(
-                                    {'message': 'retrieved ball ID is invalid'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                        except MegaBall.DoesNotExist as ex:
+                                    {'message': 'retrieved ball ID is invalid'})
+                        except MegaBall.DoesNotExist as exception:
                             raise HttpResponseNotFound(
-                                {'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-                        except Exception as ex:
-                            raise HttpResponseServerError(
-                                ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                                {'message': exception.args[0]})
+                        except Exception as exception:
+                            raise HttpResponseServerError(exception)
 
                     elif isinstance(ball, MegaBall):
                         id: int | None = ball['id']
@@ -127,10 +125,10 @@ class WinningSets(ViewSet):
                             return id
                         else:
                             raise HttpResponseBadRequest(
-                                {'message': 'mega ball ID is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                                {'message': 'mega ball ID is invalid'})
                 else:
                     raise HttpResponseBadRequest(
-                        {'message': 'mega ball is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                        {'message': 'mega ball is invalid'})
 
             new_set.first_ball = parse_ball(request.data['first_ball'])
 
@@ -147,7 +145,7 @@ class WinningSets(ViewSet):
             megaplier: int | None = request.data['megaplier']
             if megaplier is not None and isinstance(megaplier, int):
                 new_set.megaplier = megaplier
-                return HttpResponseBadRequest({'message': 'megaplier is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                return HttpResponseBadRequest({'message': 'megaplier is invalid'})
 
             estimated_jackpot: int | None = request.data['estimated_jackpot']
             if estimated_jackpot is not None and isinstance(estimated_jackpot, int):
@@ -221,18 +219,18 @@ class WinningSets(ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def partial_update(self, request, pk=None) -> Response:
         """Handles PATCH requests for all Winning Sets"""
-        return HttpResponseNotAllowed({'message': 'method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed({'message': 'method not allowed'})
 
     def update(self, request: Request, pk=None) -> Response:
         """Handles PUT requests for Winning Sets"""
         try:
             winning_set = WinningSet.objects.get(pk=pk)
             if request.body is None:
-                return HttpResponseBadRequest({'message': 'body must include set data'}, status=status.HTTP_400_BAD_REQUEST)
+                return HttpResponseBadRequest({'message': 'body must include set data'})
 
             set_date: int | None = request.body['date']
             if set_date is not None:
@@ -249,13 +247,12 @@ class WinningSets(ViewSet):
                                 return id
                             else:
                                 raise HttpResponseServerError(
-                                    {'message': 'retrieved ball ID is invalid'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                        except Ball.DoesNotExist as ex:
+                                    {'message': 'retrieved ball ID is invalid'})
+                        except Ball.DoesNotExist as exception:
                             raise HttpResponseNotFound(
-                                {'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-                        except Exception as ex:
-                            raise HttpResponseServerError(
-                                ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                                {'message': exception.args[0]})
+                        except Exception as exception:
+                            raise HttpResponseServerError(exception)
 
                     elif isinstance(ball, Ball):
                         id: int | None = ball['id']
@@ -263,7 +260,7 @@ class WinningSets(ViewSet):
                             return id
                         else:
                             raise HttpResponseBadRequest(
-                                {'message': 'ball ID is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                                {'message': 'ball ID is invalid'})
 
             def parse_mega_ball(ball: int | MegaBall | None) -> int | None:
                 if ball is not None:
@@ -275,13 +272,12 @@ class WinningSets(ViewSet):
                                 return id
                             else:
                                 raise HttpResponseServerError(
-                                    {'message': 'retrieved ball ID is invalid'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                        except MegaBall.DoesNotExist as ex:
+                                    {'message': 'retrieved ball ID is invalid'})
+                        except MegaBall.DoesNotExist as exception:
                             raise HttpResponseNotFound(
-                                {'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-                        except Exception as ex:
-                            raise HttpResponseServerError(
-                                ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                                {'message': exception.args[0]})
+                        except Exception as exception:
+                            raise HttpResponseServerError(exception)
 
                     elif isinstance(ball, MegaBall):
                         id: int | None = ball['id']
@@ -289,7 +285,7 @@ class WinningSets(ViewSet):
                             return id
                         else:
                             raise HttpResponseBadRequest(
-                                {'message': 'mega ball ID is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                                {'message': 'mega ball ID is invalid'})
 
             first_ball: int | None = parse_ball(request.data['first_ball'])
             if first_ball is not None:
@@ -388,10 +384,10 @@ class WinningSets(ViewSet):
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         except WinningSet.DoesNotExist as exception:
-            return Response({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': exception.args[0]})
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     @action(methods=['post'], detail=True)
     def html(self, request: Request) -> Response:
@@ -399,10 +395,10 @@ class WinningSets(ViewSet):
         print("REQUEST: ", request)
 
         if request.method != "POST":
-            return HttpResponseNotAllowed(permitted_methods=['POST'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
 
         if request.body is None:
-            return HttpResponseBadRequest({'message': 'body is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponseBadRequest({'message': 'body is invalid'})
 
         try:
             set_trace()
@@ -561,4 +557,4 @@ class WinningSets(ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)

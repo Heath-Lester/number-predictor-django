@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from mega_api.models import MegaBall
 from mega_api.serializers import MegaBallSerializer
-from django.http import HttpResponseServerError, HttpResponseNotAllowed
+from django.http import HttpResponseServerError, HttpResponseNotAllowed, HttpResponseNotFound
 
 
 class MegaBalls(ViewSet):
@@ -21,23 +21,23 @@ class MegaBalls(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
 
     def destroy(self, request, pk=None) -> Response:
         """Handles DELETE requests for all Mega Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def create(self, request) -> Response:
         """Handles POST requests for all Mega Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def update(self, request, pk=None) -> Response:
         """Handles POST requests for all Mega Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def partial_update(self, request, pk=None) -> Response:
         """Handles PATCH requests for all Balls"""
-        return HttpResponseNotAllowed(permitted_methods=['GET'], status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponseNotAllowed(permitted_methods=['GET'])
 
     def retrieve(self, request, pk=None) -> Response:
         """Handles GET requests for a single Mega Ball"""
@@ -51,7 +51,7 @@ class MegaBalls(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except MegaBall.DoesNotExist as exception:
-            return Response({'message': exception.args[0]}, status=status.HTTP_404_NOT_FOUND)
+            return HttpResponseNotFound({'message': exception.args[0]})
 
         except Exception as exception:
-            return HttpResponseServerError(exception, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponseServerError(exception)
