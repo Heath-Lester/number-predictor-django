@@ -7,10 +7,11 @@ from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, HttpResp
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from rest_framework.request import Request
 
 
 @csrf_exempt
-def register_user(request) -> Response:
+def register_user(request: Request) -> Response:
     '''Handles the creation of a new user for authentication
 
     Method arguments:

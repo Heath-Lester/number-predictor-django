@@ -1,5 +1,6 @@
 """View for Winning Numbers"""
 from datetime import date
+import html
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -223,7 +224,7 @@ class WinningSets(ViewSet):
 
     def partial_update(self, request, pk=None) -> Response:
         """Handles PATCH requests for all Winning Sets"""
-        return HttpResponseNotAllowed({'message': 'method not allowed'})
+        return HttpResponseNotAllowed(permitted_methods=['POST', 'GET', 'DELETE', 'PUT'])
 
     def update(self, request: Request, pk=None) -> Response:
         """Handles PUT requests for Winning Sets"""
@@ -389,11 +390,9 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception)
 
-    @action(methods=['post'], detail=True)
+    @action(methods=['post'], detail=False)
     def html(self, request: Request) -> Response:
         """Handles POST requests for parsing HTML from Mega Millions"""
-        print("REQUEST: ", request)
-
         if request.method != "POST":
             return HttpResponseNotAllowed(permitted_methods=['POST'])
 
@@ -401,9 +400,10 @@ class WinningSets(ViewSet):
             return HttpResponseBadRequest({'message': 'body is invalid'})
 
         try:
-            set_trace()
             mega_parser = MegaParser()
-            mega_parser.feed(request.body)
+            body: str = request.body.decode('utf-8')
+            print("decoded body: ", body)
+            mega_parser.feed(body)
             data: list[str] = mega_parser.get_data()
             print('DATA: ', data)
             parsed_sets: list[WinningSet] = mega_parser.get_sets()
