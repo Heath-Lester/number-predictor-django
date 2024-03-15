@@ -27,7 +27,6 @@ class ConversionUtils():
 
     @staticmethod
     def convert_date_string_to_date(date_string: str) -> date:
-        print("DATE STRING: ", date_string)
         month, day, year = date_string.split("/")
         return date(month=int(month), day=int(day), year=int(year))
 

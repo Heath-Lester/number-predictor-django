@@ -32,8 +32,6 @@ class MegaParser(HTMLParser):
     def handle_data(self, data: str | None) -> None:
         if self.current_attr != MegaClassName.NONE and data is not None and len(data) > 0:
             if len(data) > 0:
-                self.parsed_data.append(data)
-
                 self.set_field(data)
 
                 if self.current_attr == MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE or self.current_attr == MegaClassName.MEGAPLIER:

@@ -1,21 +1,22 @@
 """View for Winning Numbers"""
+import json
 from datetime import date
-import html
+from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseNotAllowed
+from django.db.models import Q
+from mega_api.models import Ball, MegaBall, WinningSet
+from mega_api.serializers.winning_set_serializer import WinningSetSerializer
+from mega_api.utils.mega_parser import MegaParser
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.decorators import action
-from mega_api.models import Ball, MegaBall, WinningSet
-from mega_api.serializers.winning_set_serializer import WinningSetSerializer
-from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseNotAllowed
-from mega_api.utils.mega_parser import MegaParser
 
 
 class WinningSets(ViewSet):
     """Class containing CRUD operations for Winning Sets"""
 
-    def list(self, request) -> Response:
+    def list(self, request: Request) -> Response:
         """Handles GET requests for all Winning Sets"""
 
         try:
@@ -29,7 +30,7 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception)
 
-    def destroy(self, request, pk=None) -> Response:
+    def destroy(self, request: Request, pk=None) -> Response:
         """Handles DELETE requests for all Winning Sets"""
 
         try:
@@ -43,7 +44,7 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception)
 
-    def retrieve(self, request, pk=None) -> Response:
+    def retrieve(self, request: Request, pk=None) -> Response:
         """Handles GET requests for a single winning set"""
 
         try:
@@ -60,7 +61,7 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception)
 
-    def create(self, request) -> Response:
+    def create(self, request: Request) -> Response:
         """Handles POST requests for a new winning set"""
 
         try:
@@ -221,7 +222,7 @@ class WinningSets(ViewSet):
         except Exception as exception:
             return HttpResponseServerError(exception)
 
-    def partial_update(self, request, pk=None) -> Response:
+    def partial_update(self, request: Request, pk=None) -> Response:
         """Handles PATCH requests for all Winning Sets"""
         return HttpResponseNotAllowed(permitted_methods=['POST', 'GET', 'DELETE', 'PUT'])
 
@@ -386,6 +387,385 @@ class WinningSets(ViewSet):
 
         except WinningSet.DoesNotExist as exception:
             return Response({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def first_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    first_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    first_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def second_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    second_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    second_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def third_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    third_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    third_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def fourth_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    fourth_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    fourth_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def fifth_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    fifth_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    fifth_ball=ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def mega_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            mega_ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in mega_ball:
+                pk: str = mega_ball['id']
+                mega_ball: MegaBall = MegaBall.objects.get(pk=pk)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    mega_ball=mega_ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in mega_ball:
+                number: str = mega_ball['number']
+                mega_ball: MegaBall = MegaBall.objects.get(number=number)
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    mega_ball=mega_ball)
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except MegaBall.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    Q(first_ball=ball) |
+                    Q(second_ball=ball) |
+                    Q(third_ball=ball) |
+                    Q(fourth_ball=ball) |
+                    Q(fifth_ball=ball))
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    Q(first_ball=ball) |
+                    Q(second_ball=ball) |
+                    Q(third_ball=ball) |
+                    Q(fourth_ball=ball) |
+                    Q(fifth_ball=ball))
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except Exception as exception:
+            return HttpResponseServerError(exception)
+
+    @action(methods=['post'], detail=False)
+    def any_ball(self, request: Request) -> Response:
+        """Handles GET requests for getting all Winning Sets where the first ball includes the provided key"""
+        if request.method != "POST":
+            return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+        if request.body is None:
+            return HttpResponseBadRequest({'message': 'please provide a ball in the request body'})
+
+        try:
+            ball: json = json.loads(request.body.decode('utf-8'))
+
+            if 'id' in ball:
+                pk: str = ball['id']
+                ball: Ball = Ball.objects.get(pk=pk)
+                mega_ball: MegaBall = MegaBall.objects.get(pk=pk)
+
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    Q(first_ball=ball) |
+                    Q(second_ball=ball) |
+                    Q(third_ball=ball) |
+                    Q(fourth_ball=ball) |
+                    Q(fifth_ball=ball) |
+                    Q(mega_ball=mega_ball))
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            elif 'number' in ball:
+                number: str = ball['number']
+                ball: Ball = Ball.objects.get(number=number)
+                mega_ball: MegaBall = MegaBall.objects.get(number=number)
+
+                sets: list[WinningSet] = WinningSet.objects.filter(
+                    Q(first_ball=ball) |
+                    Q(second_ball=ball) |
+                    Q(third_ball=ball) |
+                    Q(fourth_ball=ball) |
+                    Q(fifth_ball=ball) |
+                    Q(mega_ball=mega_ball))
+
+                serializer = WinningSetSerializer(
+                    sets, many=True, context={'request': request})
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return HttpResponseBadRequest({'message': 'provided ball is invalid'})
+
+        except Ball.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
+
+        except MegaBall.DoesNotExist as exception:
+            return self.ball(request)
+
+        except WinningSet.DoesNotExist as exception:
+            return HttpResponseNotFound({'message': exception.args[0]})
 
         except Exception as exception:
             return HttpResponseServerError(exception)
