@@ -1,49 +1,48 @@
 from html.parser import HTMLParser
-from rest_framework import status
-from django.http import HttpResponseServerError
 from mega_api.enums.mega_class_name import MegaClassName
 from mega_api.models import WinningSet
 from mega_api.utils import BallUtils, ConversionUtils
 
 
 class MegaParser(HTMLParser):
-    parsed_data: list[str] = []
+
     current_attr: MegaClassName = MegaClassName.NONE
     parsed_sets: list[WinningSet] = []
     current_set = WinningSet()
 
+    def __init__(self, *, convert_charrefs: bool = True) -> None:
+        self.current_attr = MegaClassName.NONE
+        self.parsed_sets = []
+        self.current_set = WinningSet()
+        super().__init__(convert_charrefs=convert_charrefs)
+
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        print("TAG: ", tag)
-        print("ATTRS: ", attrs)
         if len(attrs) == 0:
             self.current_attr = MegaClassName.NONE
         else:
             for key, value in attrs:
                 if key == 'class':
                     if MegaClassName.has_matching_value(value):
-                        self.current_attr = MegaClassName[value]
+                        self.current_attr = MegaClassName[MegaClassName.get_key_by_value(
+                            value)]
                         break
                     else:
                         self.current_attr = MegaClassName.NONE
 
-    def handle_data(self, data: str) -> None:
-        if len(data) > 0:
-            self.parsed_data.append(data)
-            if self.current_attr != MegaClassName.NONE:
-                if self.current_attr == MegaClassName.DATE & self.current_set.date is not None:
-                    self.load_set()
+    def handle_data(self, data: str | None) -> None:
+        if self.current_attr != MegaClassName.NONE and data is not None and len(data) > 0:
+            if len(data) > 0:
+                self.parsed_data.append(data)
 
                 self.set_field(data)
 
-                if self.current_attr == MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE:
+                if self.current_attr == MegaClassName.MEGA_MATCH_MEGAPLIER_PRIZE or self.current_attr == MegaClassName.MEGAPLIER:
                     self.load_set()
+        self.current_attr = MegaClassName.NONE
 
     def load_set(self) -> None:
         self.parsed_sets.append(self.current_set)
         self.current_set = WinningSet()
-
-    def get_data(self) -> list[str]:
-        return self.parsed_data.copy()
 
     def get_sets(self) -> list[WinningSet]:
         return self.parsed_sets.copy()
@@ -58,47 +57,23 @@ class MegaParser(HTMLParser):
                 case MegaClassName.ALT_DATE:
                     self.current_set.date = ConversionUtils().convert_alt_date_string_to_date(value)
                 case MegaClassName.FIRST_BALL:
-                    try:
-                        ball = BallUtils.get_ball_by_number(value)
-                        self.current_set.first_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.first_ball = BallUtils.get_ball_by_number(
+                        value)
                 case MegaClassName.SECOND_BALL:
-                    try:
-                        ball = BallUtils.get_ball_by_number(value)
-                        self.current_set.second_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.second_ball = BallUtils.get_ball_by_number(
+                        value)
                 case MegaClassName.THIRD_BALL:
-                    try:
-                        ball = BallUtils.get_ball_by_number(value)
-                        self.current_set.third_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.third_ball = BallUtils.get_ball_by_number(
+                        value)
                 case MegaClassName.FOURTH_BALL:
-                    try:
-                        ball = BallUtils.get_ball_by_number(value)
-                        self.current_set.fourth_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.fourth_ball = BallUtils.get_ball_by_number(
+                        value)
                 case MegaClassName.FIFTH_BALL:
-                    try:
-                        ball = BallUtils.get_ball_by_number(value)
-                        self.current_set.fifth_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.fifth_ball = BallUtils.get_ball_by_number(
+                        value)
                 case MegaClassName.MEGA_BALL:
-                    try:
-                        ball = BallUtils.get_mega_ball_by_number(value)
-                        self.current_set.mega_ball = ball['id']
-                    except Exception as ex:
-                        raise HttpResponseServerError(
-                            ex, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    self.current_set.mega_ball = BallUtils.get_mega_ball_by_number(
+                        value)
                 case MegaClassName.MEGAPLIER:
                     self.current_set.megaplier = ConversionUtils().convert_megaplier_to_int(value)
                 # Standard Winners

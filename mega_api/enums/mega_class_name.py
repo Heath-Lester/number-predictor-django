@@ -1,4 +1,5 @@
 from enum import Enum
+from types import MappingProxyType
 
 
 class MegaClassName(Enum):
@@ -55,3 +56,9 @@ class MegaClassName(Enum):
     @classmethod
     def has_matching_value(self, value: str) -> bool:
         return value in list(self._value2member_map_)
+
+    @classmethod
+    def get_key_by_value(self, value: str) -> any:
+        keys: MappingProxyType[str, MegaClassName] = list(self.__members__)
+        values: list[str] = list(self._value2member_map_)
+        return keys[values.index(value)]

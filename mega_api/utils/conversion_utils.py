@@ -17,6 +17,7 @@ class ConversionUtils():
     @staticmethod
     def convert_megaplier_to_int(megaplier: str) -> int:
         megaplier = megaplier.replace('x', '')
+        megaplier = megaplier.replace('X', '')
         return int(megaplier)
 
     @staticmethod
@@ -26,15 +27,16 @@ class ConversionUtils():
 
     @staticmethod
     def convert_date_string_to_date(date_string: str) -> date:
+        print("DATE STRING: ", date_string)
         month, day, year = date_string.split("/")
-        return date(month=month, day=day, year=year)
+        return date(month=int(month), day=int(day), year=int(year))
 
     @staticmethod
     def convert_alt_date_string_to_date(date_string: str) -> date:
         day_name, month_name_and_day, year = date_string.split(",")
         month_name, day = month_name_and_day.split(" ")
         month = ConversionUtils().get_month_number_from_mont_name(month_name)
-        return date(month=month, day=day, year=year)
+        return date(month=int(month), day=int(day), year=int(year))
 
     @staticmethod
     def get_month_number_from_mont_name(month: str) -> int:

@@ -23,45 +23,72 @@ class WinningSet(Model):
         MegaBall, on_delete=RESTRICT, related_name="Mega Ball+")
     megaplier = PositiveSmallIntegerField()
     # Number of Standard Winners
-    jackpot_winners = PositiveIntegerField()
-    five_match_winners = PositiveIntegerField()
-    four_match_w_mega_winners = PositiveIntegerField()
-    four_match_winners = PositiveIntegerField()
-    three_match_w_mega_winners = PositiveIntegerField()
-    three_match_winners = PositiveIntegerField()
-    two_match_w_mega_winners = PositiveIntegerField()
-    one_match_w_mega_winners = PositiveIntegerField()
-    mega_match_winners = PositiveIntegerField()
+    jackpot_winners = PositiveIntegerField(default=0, blank=True, null=True)
+    five_match_winners = PositiveIntegerField(default=0, blank=True, null=True)
+    four_match_w_mega_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_winners = PositiveIntegerField(default=0, blank=True, null=True)
+    three_match_w_mega_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    two_match_w_mega_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    one_match_w_mega_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    mega_match_winners = PositiveIntegerField(default=0, blank=True, null=True)
     # Standard Prizes
-    estimated_jackpot = PositiveBigIntegerField()
-    cash_option = PositiveBigIntegerField()
-    five_match_prize = PositiveIntegerField()
-    four_match_w_mega_prize = PositiveIntegerField()
-    four_match_prize = PositiveIntegerField()
-    three_match_w_mega_prize = PositiveIntegerField()
-    three_match_prize = PositiveIntegerField()
-    two_match_w_mega_prize = PositiveIntegerField()
-    one_match_w_mega_prize = PositiveIntegerField()
-    mega_match_prize = PositiveIntegerField()
+    estimated_jackpot = PositiveBigIntegerField(
+        default=0, blank=True, null=True)
+    cash_option = PositiveBigIntegerField(default=0, blank=True, null=True)
+    five_match_prize = PositiveIntegerField(default=0, blank=True, null=True)
+    four_match_w_mega_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_prize = PositiveIntegerField(default=0, blank=True, null=True)
+    three_match_w_mega_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_prize = PositiveIntegerField(default=0, blank=True, null=True)
+    two_match_w_mega_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    one_match_w_mega_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    mega_match_prize = PositiveIntegerField(default=0, blank=True, null=True)
     # Number of Megaplier Winners
-    jackpot_megaplier_winners = PositiveIntegerField()
-    five_match_megaplier_winners = PositiveIntegerField()
-    four_match_w_mega_megaplier_winners = PositiveIntegerField()
-    four_match_megaplier_winners = PositiveIntegerField()
-    three_match_w_mega_megaplier_winners = PositiveIntegerField()
-    three_match_megaplier_winners = PositiveIntegerField()
-    two_match_w_mega_megaplier_winners = PositiveIntegerField()
-    one_match_w_mega_megaplier_winners = PositiveIntegerField()
-    mega_match_megaplier_winners = PositiveIntegerField()
+    jackpot_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    five_match_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_w_mega_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_w_mega_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    two_match_w_mega_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    one_match_w_mega_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    mega_match_megaplier_winners = PositiveIntegerField(
+        default=0, blank=True, null=True)
     # Megaplier Prizes
-    five_match_megaplier_prize = PositiveIntegerField()
-    four_match_w_mega_megaplier_prize = PositiveIntegerField()
-    four_match_megaplier_prize = PositiveIntegerField()
-    three_match_w_mega_megaplier_prize = PositiveIntegerField()
-    three_match_megaplier_prize = PositiveIntegerField()
-    two_match_w_mega_megaplier_prize = PositiveIntegerField()
-    one_match_w_mega_megaplier_prize = PositiveIntegerField()
-    mega_match_megaplier_prize = PositiveIntegerField()
+    five_match_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_w_mega_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    four_match_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_w_mega_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    three_match_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    two_match_w_mega_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    one_match_w_mega_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
+    mega_match_megaplier_prize = PositiveIntegerField(
+        default=0, blank=True, null=True)
 
     # @property
     # def first_ball(self):
