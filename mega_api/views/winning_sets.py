@@ -725,7 +725,6 @@ class WinningSets(ViewSet):
                 pk: str = ball['id']
                 ball: Ball = Ball.objects.get(pk=pk)
                 mega_ball: MegaBall = MegaBall.objects.get(pk=pk)
-
                 sets: list[WinningSet] = WinningSet.objects.filter(
                     Q(first_ball=ball) |
                     Q(second_ball=ball) |
@@ -742,7 +741,6 @@ class WinningSets(ViewSet):
                 number: str = ball['number']
                 ball: Ball = Ball.objects.get(number=number)
                 mega_ball: MegaBall = MegaBall.objects.get(number=number)
-
                 sets: list[WinningSet] = WinningSet.objects.filter(
                     Q(first_ball=ball) |
                     Q(second_ball=ball) |
