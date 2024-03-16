@@ -5,6 +5,10 @@ from mega_api.utils import BallUtils, ConversionUtils
 
 
 class MegaParser(HTMLParser):
+    """
+    Consider using Beautiful Soup for this in the future
+    https://beautiful-soup-4.readthedocs.io/en/latest/
+    """
 
     current_attr: MegaClassName = MegaClassName.NONE
     parsed_sets: list[WinningSet] = []
